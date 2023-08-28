@@ -1,0 +1,4 @@
+tarfile:
+  class: File
+  path: archive.tar
+extractfile: file.txt

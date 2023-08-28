@@ -1,0 +1,129 @@
+[build-system]
+requires = ['flit_core>=3.4,<4']
+build-backend = 'flit_core.buildapi'
+
+[project]
+name = 'aiida-cwl'
+dynamic = ['description', 'version']
+authors = [
+    {name = 'Sebastiaan P. Huber', email = 'mail@sphuber.net'}
+]
+readme = 'README.md'
+license = {file = 'LICENSE.txt'}
+classifiers = [
+    'Development Status :: 3 - Alpha',
+    'Framework :: AiiDA',
+    'License :: OSI Approved :: MIT License',
+    'Operating System :: POSIX :: Linux',
+    'Operating System :: MacOS :: MacOS X',
+    'Programming Language :: Python',
+    'Programming Language :: Python :: 3.9',
+    'Programming Language :: Python :: 3.10',
+    'Programming Language :: Python :: 3.11',
+    'Topic :: Scientific/Engineering'
+]
+keywords = ['aiida', 'workflows', 'cwl']
+requires-python = '>=3.9'
+dependencies = [
+    'aiida-shell~=0.5.3',
+    'click',
+    'pycwl @ git+https://github.com/sphuber/pycwl',
+]
+
+[project.urls]
+Source = 'https://github.com/sphuber/aiida-cwl'
+
+[project.scripts]
+aiida-cwl = 'aiida_cwl.cli:cmd_root'
+
+[project.optional-dependencies]
+pre-commit = [
+    'mypy==1.5.0',
+    'pre-commit~=3.3',
+    'pylint~=2.17.5',
+    'types-pyyaml',
+    'pylint-aiida~=0.1.1',
+]
+tests = [
+    'packaging',
+    'pgtest~=1.3,>=1.3.1',
+    'pytest~=7.2',
+    'pytest-regressions',
+]
+
+[tool.flit.module]
+name = 'aiida_cwl'
+
+[tool.flit.sdist]
+exclude = [
+    'tests',
+    '.gitignore',
+    '.pre-commit-config.yaml',
+]
+
+[tool.flynt]
+line-length = 120
+fail-on-change = true
+
+[tool.isort]
+force_sort_within_sections = true
+include_trailing_comma = true
+line_length = 120
+multi_line_output = 3
+
+[tool.mypy]
+show_error_codes = true
+check_untyped_defs = true
+scripts_are_modules = true
+warn_unused_ignores = true
+warn_redundant_casts = true
+no_warn_no_return = true
+show_traceback = true
+
+[[tool.mypy.overrides]]
+module = 'aiida_cwl.*'
+follow_imports = 'skip'
+check_untyped_defs = true
+
+[[tool.mypy.overrides]]
+module = [
+    'pycwl.*',
+    'ruamel.*',
+]
+ignore_missing_imports = true
+
+[tool.pydocstyle]
+ignore = [
+    'D104',
+    'D203',
+    'D213'
+]
+
+[tool.pylint.master]
+load-plugins = ['pylint_aiida']
+
+[tool.pylint.format]
+max-line-length = 120
+
+[tool.pylint.messages_control]
+disable = [
+    'duplicate-code',
+    'import-outside-toplevel',
+    'inconsistent-return-statements',
+    'too-many-ancestors',
+]
+
+[tool.pytest.ini_options]
+filterwarnings = [
+    'ignore:Creating AiiDA configuration folder.*:UserWarning'
+]
+
+[tool.yapf]
+align_closing_bracket_with_visual_indent = true
+allow_split_before_dict_value = false
+based_on_style = 'google'
+coalesce_brackets = true
+column_limit = 120
+dedent_closing_brackets = true
+indent_dictionary_value = false
+split_arguments_when_comma_terminated = true
